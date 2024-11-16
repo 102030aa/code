@@ -1,0 +1,78 @@
+#include<iostream>
+#include<cstring>
+#include<vector>
+#include<map>
+#include<algorithm>
+#include<math.h>
+using namespace std;
+const int N = 1000;
+int l[N], r[N], op[N];
+int status[13009];
+vector<int>v;
+map<int, int>valmkey;
+map<int, int>keymval;
+int main() {
+	int n;
+	int i, j;
+	ios::sync_with_stdio(false);
+	while (scanf_s("%d", &n)) {
+		memset(status, 0, sizeof(status));
+		v.clear();
+		valmkey.clear();
+		keymval.clear();
+		for (i = 0; i < n; i++) {
+			//cin >> l[i] >> r[i];
+			//char ch;
+			//cin >> ch;
+			//op[i] = ch;
+			scanf("%d%d%c", &l[i], &r[i], &op[i]);
+			v.push_back(l[i] - 1);
+			v.push_back(l[i]);
+			v.push_back(l[i] + 1);
+			v.push_back(r[i] - 1);
+			v.push_back(r[i]);
+			v.push_back(r[i] + 1);
+		}
+		sort(v.begin(), v.end());
+		int len = unique(v.begin(), v.end()) - v.begin();
+		for (i = 0; i < len; i++) {
+			valmkey[v[i]] = i + 1;
+			keymval[i + 1] = v[i];
+		}
+		for (i = 0; i < n; i++) {
+			//0表示hei色 1表示白色
+			if (op[i] == 'w') {
+				for (j = valmkey[l[i]]; j <= valmkey[r[i]]; j++)
+					status[j] = 1;
+			}
+			else if(op[i]=='b'){
+				for (j = valmkey[l[i]]; j <= valmkey[r[i]]; j++)
+					status[j] = 0;
+			}
+		}
+		int ans = -1, ansl, ansr, anslen, fla = false;
+		for (i = 1; i <= len; i++) {
+			j = i;
+			if (status[i] == 0)continue;
+			while (status[j] == 1)j++;
+			anslen = keymval[j - 1] - keymval[i] + 1;
+			if (anslen > ans) {
+				ans = anslen;
+				ansl = keymval[i];
+				ansr = keymval[j - 1];
+				/*fla = false;*/
+			}
+			/*else if (anslen == ans)fla = true;*/
+			i = j-1;
+		}
+		if (ans == -1)
+			//cout << "Oh， my god" << endl;
+			printf("Oh， my god\n");
+		//else if (fla)//cout << 1 << endl;
+			//printf("1\n");
+		//cout << ansl << ' ' << ansr << endl;
+		else printf("%d %d", ansl, ansr);
+
+
+	}
+}
