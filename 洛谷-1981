@@ -1,0 +1,32 @@
+#include<iostream>
+#include<string>
+#include<stack>
+using namespace std;
+stack<int>s;
+int main() {
+	int a, b;
+	char op;
+	cin >> a;
+	a =a%10000;
+	s.push(a);
+	while (cin >> op >> b) {
+		if (op == '*') {
+			a = s.top();
+			s.pop();
+			s.push(a * b % 10000);
+		}
+		else if (op == '+') {
+			s.push(b);
+		}
+	}
+	
+	while (s.size()!=1) {
+		a = s.top();
+		s.pop();
+		b = (a + s.top())%10000;
+		s.pop();
+		s.push(b);
+	}
+	cout << s.top() << endl;
+	
+}
