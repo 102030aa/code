@@ -1,0 +1,27 @@
+#include<iostream>
+#include<string>
+using namespace std;
+const int N = 125;
+struct node {
+	char l, r;
+}nd[N];
+void print(char ch) {
+	if (ch == '*')return;
+	cout << ch;
+	print(nd[ch].l);
+	print(nd[ch].r);
+
+}
+int main() {
+	int n;
+	cin >> n;
+	char ch, c;
+	cin >> ch;
+	cin >> nd[ch].l >> nd[ch].r;
+	for (int i = 2; i <= n; i++) {
+		cin >> c;
+		cin >> nd[c].l >> nd[c].r;
+	}
+	print(ch);
+	return 0;
+}
